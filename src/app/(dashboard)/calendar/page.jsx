@@ -5,12 +5,11 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import { useModal } from "../../../hooks/useModals";
+import { Modal } from "../../../components/models";
 
 
 const Calendar = () => {
-    const [selectedEvent, setSelectedEvent] = useState(
-        null
-    );
+    const [selectedEvent, setSelectedEvent] = useState(null);
     const [eventTitle, setEventTitle] = useState("");
     const [eventStartDate, setEventStartDate] = useState("");
     const [eventEndDate, setEventEndDate] = useState("");
@@ -27,7 +26,6 @@ const Calendar = () => {
     };
 
     useEffect(() => {
-        // Initialize with some events
         setEvents([
             {
                 id: "1",

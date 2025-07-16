@@ -6,49 +6,60 @@ import { usePathname } from "next/navigation";
 import { useSidebar } from "../context/SidebarContext";
 import { FaCaretDown } from "react-icons/fa";
 import { FaRegUserCircle } from "react-icons/fa";
-import { FaHome } from "react-icons/fa";
-
+import { IoCalendarOutline } from "react-icons/io5";
+import { IoMdList } from "react-icons/io";
+import { RxDashboard } from "react-icons/rx";
 
 const navItems = [
   {
-    icon: <FaRegUserCircle size={24} />,
+    icon: <RxDashboard size={24} />,
     name: "Dashboard",
-    subItems: [{ name: "Ecommerce", path: "/", pro: false }],
+    path: "/",
   },
+  // {
+  //   icon: <FaRegUserCircle size={24} />,
+  //   name: "Dashboard",
+  //   subItems: [{ name: "Ecommerce", path: "/", pro: false }],
+  // },
   {
-    icon: <FaRegUserCircle size={24} />,
+    icon: <IoCalendarOutline size={24} />,
     name: "Calendar",
     path: "/calendar",
   },
   {
-    icon: <FaRegUserCircle size={24} />,
-    name: "User Profile",
-    path: "/profile",
-  },
-
-  {
-    name: "Forms",
-    icon: <FaRegUserCircle size={24} />,
+    name: "Lists",
+    icon: <IoMdList size={24} />,
     subItems: [
       {
-        name: "Form Elements",
-        path: "/form-elements", pro: false
-      }
+        name: "Tasks",
+        path: "/lists",
+        pro: false
+      },
+      {
+        name: "Add Tasks",
+        path: "/add-lists",
+        pro: false
+      },
     ],
   },
-  {
-    name: "Tables",
-    icon: <FaRegUserCircle size={24} />,
-    subItems: [{ name: "Basic Tables", path: "/basic-tables", pro: false }],
-  },
-  {
-    name: "Pages",
-    icon: <FaRegUserCircle size={24} />,
-    subItems: [
-      { name: "Blank Page", path: "/blank", pro: false },
-      { name: "404 Error", path: "/error-404", pro: false },
-    ],
-  },
+  // {
+  //   name: "Forms",
+  //   icon: <FaRegUserCircle size={24} />,
+  //   subItems: [
+  //     {
+  //       name: "Form Elements",
+  //       path: "/form-elements", pro: false
+  //     }
+  //   ],
+  // },
+  // {
+  //   name: "Pages",
+  //   icon: <FaRegUserCircle size={24} />,
+  //   subItems: [
+  //     { name: "Blank Page", path: "/blank", pro: false },
+  //     { name: "404 Error", path: "/error-404", pro: false },
+  //   ],
+  // },
 ];
 
 
@@ -212,7 +223,7 @@ const AppSidebar = () => {
           nav.subItems.forEach((subItem) => {
             if (isActive(subItem.path)) {
               setOpenSubmenu({
-                type,
+                type: "menuType",
                 index,
               });
               submenuMatched = true;
@@ -275,8 +286,8 @@ const AppSidebar = () => {
         <Link href="/">
           {isExpanded || isHovered || isMobileOpen ? (
             <>
-              <FaRegUserCircle size={25} className="dark:hidden" />
-              <FaRegUserCircle size={25} className="hidden dark:block" />
+              <RxDashboard size={25} className="dark:hidden" />
+              <RxDashboard size={25} className="hidden dark:block" />
               {/* <Image
                 className="dark:hidden"
                 src="/images/logo/logo.svg"
@@ -293,7 +304,7 @@ const AppSidebar = () => {
               /> */}
             </>
           ) : (
-            <FaRegUserCircle size={25} className="hidden dark:block" />
+            <RxDashboard size={25} className="hidden dark:block" />
             // <Image
             //   src="/images/logo/logo-icon.svg"
             //   alt="Logo"...
