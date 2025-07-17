@@ -281,8 +281,7 @@ const AppSidebar = () => {
     >
       <div
         className={`py-8 flex  ${!isExpanded && !isHovered ? "lg:justify-center" : "justify-start"
-          }`}
-      >
+          }`} >
         <Link href="/">
           {isExpanded || isHovered || isMobileOpen ? (
             <>

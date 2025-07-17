@@ -62,6 +62,75 @@ export const listData = [
 ];
 
 
+export const notesData = [
+    {
+        "id": "1",
+        "title": "Grocery List",
+        "content": "Buy milk, eggs, bread, and bananas.",
+        "pinned": false,
+        "archived": false
+    },
+    {
+        "id": "2",
+        "title": "Project Kickoff",
+        "content": "Initial meeting scheduled with the new client. Prepare pitch deck.",
+        "pinned": true,
+        "archived": false
+    },
+    {
+        "id": "3",
+        "title": "Books to Read",
+        "content": "Atomic Habits, Deep Work, The Alchemist, Sapiens.",
+        "pinned": false,
+        "archived": false
+    },
+    {
+        "id": "4",
+        "title": "Workout Routine",
+        "content": "Monday - Chest, Tuesday - Back, Wednesday - Legs, Thursday - Cardio.",
+        "pinned": false,
+        "archived": false
+    },
+    {
+        "id": "5",
+        "title": "Weekly Goals",
+        "content": "Finish UI for notes app, publish blog post, clean workspace.",
+        "pinned": true,
+        "archived": false
+    },
+    {
+        "id": "6",
+        "title": "Vacation Ideas",
+        "content": "Japan in Spring, Maldives for beach, Iceland for Northern Lights.",
+        "pinned": false,
+        "archived": false
+    },
+    {
+        "id": "7",
+        "title": "Birthday Gift List",
+        "content": "Watch, Headphones, Custom Mug, Gift Cards.",
+        "pinned": false,
+        "archived": true
+    },
+    {
+        "id": "8",
+        "title": "Learning Plan",
+        "content": "React Native advanced, TypeScript, Node.js in 1 month schedule.",
+        "createdAt": "2025-07-09T16:00:00Z",
+        "updatedAt": "2025-07-09T16:40:00Z",
+        "tags": ["learning", "dev"],
+        "pinned": false,
+        "archived": false
+    },
+    {
+        "id": "9",
+        "title": "Shopping for Party",
+        "content": "Snacks, beverages, paper plates, balloons, lights. Snacks, beverages, paper plates, balloons, lights. Snacks, beverages, paper plates, balloons, lights.",
+        "pinned": false,
+        "archived": false
+    }
+]
+
 
 export const taskData = [
     {

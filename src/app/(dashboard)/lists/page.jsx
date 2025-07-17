@@ -2,6 +2,8 @@
 import { tableData, taskData } from '../../../utils/constants'
 import Image from 'next/image'
 import React, { useState } from 'react'
+import { TbSortAscending } from "react-icons/tb";
+import { HiSortDescending } from "react-icons/hi";
 
 export default function page() {
     const [isSelected, setisSelected] = useState("")
@@ -13,11 +15,14 @@ export default function page() {
     }
 
 
+
     return (
         <div className=''>
             <div className='bg-white w-full max-h-screen p-5 border border-gray-300 rounded-[10px]'>
                 <h1 className='text-[20px] pb-3 text-brand-950 font-bold'>Recent Lists</h1>
-                <div className='flex items-center justify-between flex-row gap-5'>
+
+                <div className="flex flex-col md:flex-col lg:flex-row items-start lg:items-center justify-between gap-5">
+
                     <div className="flex flex-row px-2 py-1 bg-gray-100 rounded-[7px]">
                         {taskData.map((item, index) => (
                             <button
@@ -31,7 +36,10 @@ export default function page() {
                     </div>
                     <div className='flex items-center justify-between flex-row gap-5'>
                         <button className='hover:bg-blue-600 mouse-hover cursor-pointer bg-brand-700 py-2 px-10 border border-gray-500 rounded-[5px]'>
-                            <p className='text-white text-[15px]'>{"Filter sort"}</p>
+                            <TbSortAscending className='text-white' size={27} />
+                        </button>
+                        <button className='hover:bg-blue-600 mouse-hover cursor-pointer bg-brand-700 py-2 px-10 border border-gray-500 rounded-[5px]'>
+                            <HiSortDescending className='text-white' size={27} />
                         </button>
                     </div>
                 </div>
