@@ -16,7 +16,7 @@ const Calendar = () => {
     const [eventLevel, setEventLevel] = useState("");
     const [events, setEvents] = useState([]);
     const calendarRef = useRef(null);
-    const { isOpen, openModal, closeModal } = useModal();
+    const { isOpen, openModal, closeModal, forceClose } = useModal();
 
     const calendarsEvents = {
         Danger: "danger",
@@ -136,6 +136,7 @@ const Calendar = () => {
             <Modal
                 isOpen={isOpen}
                 onClose={closeModal}
+                forceClose={forceClose}
                 className="max-w-[700px] p-6 lg:p-10"
             >
                 <div className="flex flex-col px-2 overflow-y-auto custom-scrollbar">

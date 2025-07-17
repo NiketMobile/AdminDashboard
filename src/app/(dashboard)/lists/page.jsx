@@ -10,6 +10,11 @@ import showToast from '../../../components/showMessage';
 import { useRouter } from 'next/navigation';
 import { useDispatch } from 'react-redux';
 import { placeListParams } from '../../../redux/reducers/pagesReducer';
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
+
+
+
 
 
 export default function page() {
@@ -18,18 +23,31 @@ export default function page() {
     const [isSelectedData, setisSelectedData] = useState({})
     const dispatch = useDispatch()
     const router = useRouter();
-
+    const [loading, setLoading] = useState(false)
 
     const formateDate = (date) => {
         return moment(date).format('MM - DD - YY');
     }
 
     const getData = useCallback(async () => {
-        let { data: bookmarks, error } = await supabase
-            .from('bookmarks')
-            .select('*')
-        setListData(bookmarks)
-    }, [])
+        setLoading(true);
+        try {
+            const { data: bookmarks, error } = await supabase
+                .from('bookmarks')
+                .select('*');
+
+            if (error) {
+                console.error('Supabase Fetch Error:', error);
+                return;
+            }
+
+            setListData(bookmarks);
+        } catch (err) {
+            console.error('Unexpected error:', err);
+        } finally {
+            setLoading(false);
+        }
+    }, []);
 
     useEffect(() => {
         getData()
@@ -42,7 +60,7 @@ export default function page() {
     const bookmarkData = useMemo(() => {
         if (!listData || listData?.length == 0) return [];
         const sortedData = [...listData]?.sort(
-            (a, b) => new Date(b.created_at) - new Date(a.created_at) // newest first
+            (a, b) => new Date(b.created_at) - new Date(a.created_at)
         );
         if (!isSelected || isSelected?.title === "All") {
             return sortedData;
@@ -117,6 +135,16 @@ export default function page() {
                                 </tr>
                             </thead>
                             <tbody>
+                                {loading &&
+                                    Array(5)
+                                        .fill()
+                                        .map((_, index) => (
+                                            <tr key={index} className="border-b border-gray-200">
+                                                <td className="py-4 px-3 w-full" colSpan={5}>
+                                                    <Skeleton height={50} width="100%" borderRadius={8} />
+                                                </td>
+                                            </tr>
+                                        ))}
                                 {bookmarkData?.map((item, index) => (
                                     <tr
                                         key={index}
