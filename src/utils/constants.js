@@ -134,6 +134,10 @@ export const notesData = [
 
 export const taskData = [
     {
+        id: "0",
+        title: "All"
+    },
+    {
         id: "1",
         title: "React Native"
     },
@@ -148,10 +152,6 @@ export const taskData = [
     {
         id: "4",
         title: "Node"
-    },
-    {
-        id: "5",
-        title: "All"
     },
 ]
 

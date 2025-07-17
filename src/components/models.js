@@ -9,6 +9,7 @@ export const Modal = ({
     className,
     showCloseButton = true, // Default to true for backwards compatibility
     isFullscreen = false,
+    forceClose
 }) => {
     const modalRef = useRef(null);
 
@@ -16,6 +17,7 @@ export const Modal = ({
         const handleEscape = (event) => {
             if (event.key === "Escape") {
                 onClose();
+                forceClose()
             }
         };
 
@@ -49,10 +51,8 @@ export const Modal = ({
     return (
         <div className="fixed inset-0 flex items-center justify-center overflow-y-auto modal z-99999">
             {!isFullscreen && (
-                <div
-                    className="fixed inset-0 h-full w-full bg-gray-400/50 backdrop-blur-[32px]"
-                    onClick={onClose}
-                ></div>
+                <div className="fixed inset-0 h-full w-full bg-gray-400/50 backdrop-blur-[32px]"
+                    onClick={onClose}></div>
             )}
             <div
                 ref={modalRef}
@@ -61,7 +61,7 @@ export const Modal = ({
             >
                 {showCloseButton && (
                     <button
-                        onClick={onClose}
+                        onClick={forceClose}
                         className="absolute right-3 top-3 z-999 flex h-9.5 w-9.5 items-center justify-center rounded-full bg-gray-100 text-gray-400 transition-colors hover:bg-gray-200 hover:text-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white sm:right-6 sm:top-6 sm:h-11 sm:w-11"
                     >
                         <svg
