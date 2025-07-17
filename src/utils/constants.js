@@ -155,6 +155,24 @@ export const taskData = [
     },
 ]
 
+export const dropdownData = [
+    {
+        id: "1",
+        title: "React Native"
+    },
+    {
+        id: "2",
+        title: "React"
+    },
+    {
+        id: "3",
+        title: "Javascript"
+    },
+    {
+        id: "4",
+        title: "Node"
+    },
+]
 
 export const listScreenHeaderData = [
     {

@@ -4,8 +4,9 @@ import DropdownMenu from '../../../components/dropdownMenu'
 import { styles } from '../../../utils/styles_css'
 import React, { useEffect, useState } from 'react'
 import showToast from '../../../components/showMessage'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { redirect, useRouter } from 'next/navigation'
+import { placeListParams } from '../../../redux/reducers/pagesReducer'
 
 
 //  "id": 11,
@@ -23,7 +24,8 @@ export default function page() {
     const [isLoading, setIsLoading] = useState(false)
     const updateData = useSelector((state) => state?.pages?.listParams)
     const [isUpdateId, setIsUpdateId] = useState("")
-     const router = useRouter();
+    const router = useRouter();
+    const dispatch = useDispatch()
 
     useEffect(() => {
         if (updateData) {
@@ -43,6 +45,8 @@ export default function page() {
         field: ""
     })
 
+    console.log('dropdownValue', JSON.stringify(dropdownValue, null, 2))
+
     const checkValid = () => {
         if (!name.trim()) {
             return { message: "Name is required", field: "name" };
@@ -50,13 +54,16 @@ export default function page() {
             return { message: "Description is required", field: "description" };
         } else if (!url.trim()) {
             return { message: "URL is required", field: "url" };
-        } else if (!updateData) {
-            if (!dropdownValue?.title) {
-                return { message: "Category is required", field: "dropdown" };
-            } else {
-                return { message: "Category is required", field: "dropdown" };
-            }
+        } else if (!dropdownValue) {
+            return { message: "Category is required", field: "dropdown" };
         }
+        // } else if (updateData) {
+        //     if (!dropdownValue) {
+        //         return { message: "Category is required", field: "dropdown" };
+        //     } else {
+        //         return { message: "Category is required", field: "dropdown" };
+        //     }
+        // }
         return null;
     };
 
@@ -73,7 +80,7 @@ export default function page() {
             name: name,
             url: url,
             description: description,
-            category: updateData ? dropdownValue : dropdownValue?.title
+            category: updateData ? dropdownValue : dropdownValue
         }
         if (updateData) {
             handleUpdate(payload)
@@ -118,6 +125,7 @@ export default function page() {
                 console.error('Supabase update Error:', error);
                 return;
             }
+            dispatch(placeListParams(data))
             router?.push('/lists')
             showToast("success", "Data update successfully")
             console.log('handleCreate:', data);
@@ -158,7 +166,7 @@ export default function page() {
                 </div>
                 <div className="mb-6">
                     <label className={styles.inputLabelClass}>Dropdown Menu</label>
-                    <DropdownMenu onSubmit={setDropdownValue} />
+                    <DropdownMenu value={dropdownValue} onSubmit={setDropdownValue} />
                 </div>
 
                 <button
@@ -167,7 +175,6 @@ export default function page() {
                 >
                     <p className="font-bold text-[17px] text-center">Submit</p>
                 </button>
-
 
             </div>
         </div>
