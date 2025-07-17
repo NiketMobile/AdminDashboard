@@ -8,14 +8,16 @@ import { supabase } from '../../../supabase/supabase';
 import moment from 'moment';
 import showToast from '../../../components/showMessage';
 import { useRouter } from 'next/navigation';
+import { useDispatch } from 'react-redux';
+import { placeListParams } from '../../../redux/reducers/pagesReducer';
 
 
 export default function page() {
     const [isSelected, setisSelected] = useState("")
     const [listData, setListData] = useState([])
     const [isSelectedData, setisSelectedData] = useState({})
+    const dispatch = useDispatch()
     const router = useRouter();
-
 
 
     const formateDate = (date) => {
@@ -67,7 +69,10 @@ export default function page() {
     }
 
     const handleEdit = (data) => {
-        router?.push('/add-lists')
+        dispatch(placeListParams(data))
+        if (data) {
+            router?.push('/add-lists')
+        }
     }
 
 

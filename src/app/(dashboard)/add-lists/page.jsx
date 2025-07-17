@@ -4,19 +4,39 @@ import DropdownMenu from '../../../components/dropdownMenu'
 import { styles } from '../../../utils/styles_css'
 import React, { useEffect, useState } from 'react'
 import showToast from '../../../components/showMessage'
+import { useSelector } from 'react-redux'
+import { redirect, useRouter } from 'next/navigation'
 
+
+//  "id": 11,
+//   "created_at": "2025-07-17T09:51:48.394324+00:00",
+//   "name": "qweqwe",
+//   "url": "qweqwe",
+//   "description": "qweqwe",
+//   "category": "Javascript"
 
 export default function page() {
-    const [category, setCategory] = useState("")
     const [name, setName] = useState("")
     const [description, setDescription] = useState("")
     const [dropdownValue, setDropdownValue] = useState("")
     const [url, setUrl] = useState("")
-
-
-
-
     const [isLoading, setIsLoading] = useState(false)
+    const updateData = useSelector((state) => state?.pages?.listParams)
+    const [isUpdateId, setIsUpdateId] = useState("")
+     const router = useRouter();
+
+    useEffect(() => {
+        if (updateData) {
+            setName(updateData?.name)
+            setDescription(updateData?.description)
+            setDropdownValue(updateData?.category)
+            setUrl(updateData?.url)
+            setIsUpdateId(updateData?.id)
+        } else {
+            resetState()
+            setIsUpdateId("")
+        }
+    }, [updateData])
 
     const [isError, setIsError] = useState({
         messgae: "",
@@ -30,8 +50,12 @@ export default function page() {
             return { message: "Description is required", field: "description" };
         } else if (!url.trim()) {
             return { message: "URL is required", field: "url" };
-        } else if (!dropdownValue?.title) {
-            return { message: "Category is required", field: "dropdown" };
+        } else if (!updateData) {
+            if (!dropdownValue?.title) {
+                return { message: "Category is required", field: "dropdown" };
+            } else {
+                return { message: "Category is required", field: "dropdown" };
+            }
         }
         return null;
     };
@@ -43,16 +67,23 @@ export default function page() {
             showToast("error", error.message);
             return;
         }
-        setIsLoading(true);
         setIsError({ message: "", field: "" });
-
         setIsLoading(true)
         const payload = {
             name: name,
             url: url,
             description: description,
-            category: dropdownValue?.title
+            category: updateData ? dropdownValue : dropdownValue?.title
         }
+        if (updateData) {
+            handleUpdate(payload)
+        } else {
+            handleCreate(payload)
+        }
+    }
+
+    const handleCreate = async (payload) => {
+        setIsLoading(true);
         try {
             const { data, error } = await supabase
                 .from('bookmarks')
@@ -65,6 +96,31 @@ export default function page() {
             }
             showToast("success", "Data added successfully")
             console.log('handleCreate:', data);
+            router?.push('/lists')
+        } catch (err) {
+            console.error('Unexpected Error:', err);
+        } finally {
+            resetState()
+            setIsLoading(false)
+        }
+    }
+    const handleUpdate = async (payload) => {
+        if (!isUpdateId) return
+        setIsLoading(true);
+        try {
+            const { data, error } = await supabase
+                .from('bookmarks')
+                .update(payload)
+                .eq('id', isUpdateId)
+                .select()
+
+            if (error) {
+                console.error('Supabase update Error:', error);
+                return;
+            }
+            router?.push('/lists')
+            showToast("success", "Data update successfully")
+            console.log('handleCreate:', data);
         } catch (err) {
             console.error('Unexpected Error:', err);
         } finally {
@@ -73,8 +129,9 @@ export default function page() {
         }
     }
 
+
+
     const resetState = () => {
-        setCategory("")
         setName("")
         setDescription("")
         setDropdownValue("")
@@ -85,7 +142,7 @@ export default function page() {
     return (
         <div className="flex items-center justify-center py-10 bg-gray-100">
             <div className="bg-white md:w-[450px] lg:w-[600px]  p-6 border border-gray-300 rounded-[10px] shadow-md">
-                <h1 className="text-center pb-7 text-3xl text-brand-950 font-bold">Add data</h1>
+                <h1 className="text-center pb-7 text-[23px] text-brand-950 font-bold">Add data</h1>
 
                 <div className="mb-6">
                     <label className={styles.inputLabelClass}>Name</label>
